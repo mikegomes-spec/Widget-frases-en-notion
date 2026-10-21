@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frase del Día</title>
+</head>
+<body>
+
+    <!-- Contenedor del Widget -->
+    <div class="widget-container">
+        <p id="texto-frase">"Cargando frase..."</p>
+        <p id="autor-frase"></p>
+        <button id="btn-cambiar" onclick="mostrarFraseAleatoria()">Ver otra frase</button>
+    </div>
+
+    <script>
+        // Tu lista de frases filosóficas y motivacionales
+        const bancoDeFrases = [
+            { texto: "La felicidad de tu vida depende de la calidad de tus pensamientos.", autor: "Marco Aurelio" },
+            { texto: "No es que tengamos poco tiempo, sino que perdemos mucho.", autor: "Séneca" },
+            { texto: "El hombre que mueve montañas empieza cargando pequeñas piedras.", autor: "Confucio" },
+            { texto: "Vence al enemigo que llevas dentro y los de fuera no te harán daño.", autor: "Proverbio Africano" },
+            { texto: "La vida es muy simple, pero insistimos en hacerla complicada.", autor: "Confucio" },
+            { texto: "Quien tiene un porqué para vivir puede soportar casi cualquier cómo.", autor: "Friedrich Nietzsche" },
+            { texto: "Somos lo que hacemos repetidamente. La excelencia, entonces, no es un acto, sino un hábito.", autor: "Aristóteles" },
+            { texto: "No busques que los eventos sucedan como tú deseas, sino desea que sucedan como suceden.", autor: "Epicteto" }
+        ];
+
+        // Función para mostrar la frase fija del día
+        function mostrarFraseDelDia() {
+            const hoy = new Date();
+            // Creamos un índice basado en el día, mes y año actual
+            const numeroDia = hoy.getDate() + hoy.getMonth() + hoy.getFullYear();
+            const indiceFrase = numeroDia % bancoDeFrases.length;
+            
+            const fraseSeleccionada = bancoDeFrases[indiceFrase];
+            
+            document.getElementById("texto-frase").innerText = `"${fraseSeleccionada.texto}"`;
+            document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
+        }
+
+        // Función por si el usuario hace clic en el botón para forzar una nueva frase aleatoria
+        function mostrarFraseAleatoria() {
+            const indiceAleatorio = Math.floor(Math.random() * bancoDeFrases.length);
+            const fraseSeleccionada = bancoDeFrases[indiceAleatorio];
+            
+            document.getElementById("texto-frase").innerText = `"${fraseSeleccionada.texto}"`;
+            document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
+        }
+
+        // Ejecutar la frase del día automáticamente al cargar el widget
+        mostrarFraseDelDia();
+    </script>
+
+</body>
+</html>
