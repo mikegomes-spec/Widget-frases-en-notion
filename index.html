@@ -3,11 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frase del Día</title>
+    <title>Frase del Día para Notion</title>
+    
+    <!-- Importamos una fuente elegante y minimalista similar a Notion -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos generales adaptados a la estética de Notion */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* Permite que se adapte al fondo de la página si es necesario */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Tarjeta del contenedor del widget */
+        .widget-container {
+            background-color: #fbfbfa; /* El color exacto del fondo claro de Notion */
+            border: 1px solid #edece9; /* Borde sutil estilo Notion */
+            border-radius: 8px;
+            padding: 24px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo para la frase filosófica */
+        #texto-frase {
+            font-family: 'Playfair Display', serif; /* Tipografía serif elegante */
+            font-size: 1.25rem;
+            color: #37352f; /* El color de texto principal de Notion */
+            line-height: 1.5;
+            margin: 0 0 12px 0;
+            font-style: italic;
+        }
+
+        /* Estilo para el autor */
+        #autor-frase {
+            font-size: 0.85rem;
+            color: #787774; /* Color secundario grisáceo de Notion */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin: 0 0 20px 0;
+        }
+
+        /* Botón minimalista de cambio */
+        #btn-cambiar {
+            background-color: transparent;
+            border: 1px solid #dfdfde;
+            color: #37352f;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        #btn-cambiar:hover {
+            background-color: #f1f1f0;
+            border-color: #c1c1c0;
+        }
+
+        /* Soporte automático para Modo Oscuro de Notion si el iframe lo detecta */
+        @media (prefers-color-scheme: dark) {
+            .widget-container {
+                background-color: #202020;
+                border-color: #2f2f2f;
+            }
+            #texto-frase {
+                color: #rgba(255, 255, 255, 0.9);
+            }
+            #autor-frase {
+                color: #9b9b9b;
+            }
+            #btn-cambiar {
+                border-color: #3f3f3f;
+                color: #ffffff;
+            }
+            #btn-cambiar:hover {
+                background-color: #2f2f2f;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Contenedor del Widget -->
     <div class="widget-container">
         <p id="texto-frase">"Cargando frase..."</p>
         <p id="autor-frase"></p>
@@ -15,7 +107,6 @@
     </div>
 
     <script>
-        // Tu lista de frases filosóficas y motivacionales
         const bancoDeFrases = [
             { texto: "La felicidad de tu vida depende de la calidad de tus pensamientos.", autor: "Marco Aurelio" },
             { texto: "No es que tengamos poco tiempo, sino que perdemos mucho.", autor: "Séneca" },
@@ -27,31 +118,23 @@
             { texto: "No busques que los eventos sucedan como tú deseas, sino desea que sucedan como suceden.", autor: "Epicteto" }
         ];
 
-        // Función para mostrar la frase fija del día
         function mostrarFraseDelDia() {
             const hoy = new Date();
-            // Creamos un índice basado en el día, mes y año actual
             const numeroDia = hoy.getDate() + hoy.getMonth() + hoy.getFullYear();
             const indiceFrase = numeroDia % bancoDeFrases.length;
-            
             const fraseSeleccionada = bancoDeFrases[indiceFrase];
-            
             document.getElementById("texto-frase").innerText = `"${fraseSeleccionada.texto}"`;
             document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
         }
 
-        // Función por si el usuario hace clic en el botón para forzar una nueva frase aleatoria
         function mostrarFraseAleatoria() {
             const indiceAleatorio = Math.floor(Math.random() * bancoDeFrases.length);
             const fraseSeleccionada = bancoDeFrases[indiceAleatorio];
-            
             document.getElementById("texto-frase").innerText = `"${fraseSeleccionada.texto}"`;
             document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
         }
 
-        // Ejecutar la frase del día automáticamente al cargar el widget
         mostrarFraseDelDia();
     </script>
-
 </body>
 </html>
