@@ -11,30 +11,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* Variables para el Tema Claro (Estilo Oficial Notion) */
+        /* Variables para el Tema Claro */
         :root {
-            --bg-body: transparent;
-            --bg-card: #fbfbfa;
-            --border-card: #edece9;
+            --bg-body: #ffffff; /* Fondo del iframe en modo claro */
+            --bg-card: #fff7f2; /* Naranja muy sutil */
+            --border-card: #f3decb; /* Borde sutil acorde al tono */
             --text-main: #37352f;
             --text-muted: #787774;
-            --btn-border: #dfdfde;
-            --btn-hover-bg: #f1f1f0;
-            --shadow: rgba(0, 0, 0, 0.05);
+            --btn-border: #e6cbbe;
+            --btn-hover-bg: #faebe0;
+            --shadow: rgba(0, 0, 0, 0.04);
         }
 
-        /* Variables para el Tema Oscuro (Estilo Oficial Notion Dark) */
+        /* Variables para el Tema Oscuro */
         [data-theme="dark"] {
-            --bg-card: #202020;
-            --border-card: #2f2f2f;
+            --bg-body: #191919; /* Fondo oscuro exacto de Notion (elimina el recuadro blanco) */
+            --bg-card: #26201d; /* Naranja muy sutil adaptado al modo oscuro */
+            --border-card: #3a2e26; /* Borde oscuro y cálido acorde */
             --text-main: rgba(255, 255, 255, 0.9);
             --text-muted: #9b9b9b;
-            --btn-border: #3f3f3f;
-            --btn-hover-bg: #2f2f2f;
+            --btn-border: #4a3a30;
+            --btn-hover-bg: #322822;
             --shadow: rgba(0, 0, 0, 0.3);
         }
 
-        body {
+        html, body {
             margin: 0;
             padding: 0;
             background-color: var(--bg-body);
@@ -44,6 +45,7 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            transition: background-color 0.3s ease;
         }
 
         /* Tarjeta del widget */
@@ -60,7 +62,7 @@
             transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Botón discreto para alternar tema (modo claro/oscuro) */
+        /* Botón discreto para alternar tema (esquina superior derecha) */
         .theme-toggle {
             position: absolute;
             top: 10px;
@@ -157,7 +159,6 @@
             document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
         }
 
-        // Detectar si el sistema o navegador está en Modo Oscuro de forma predeterminada
         function detectarPreferenciaTema() {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 aplicarTema('dark');
@@ -185,11 +186,9 @@
             }
         }
 
-        // Inicializar
         detectarPreferenciaTema();
         mostrarFraseDelDia();
 
-        // Escuchar cambios en la preferencia del sistema operativo/navegador en tiempo real
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
             aplicarTema(e.matches ? 'dark' : 'light');
         });
