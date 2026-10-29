@@ -5,17 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frase del Día para Notion</title>
     
-    <!-- Importamos una fuente elegante y minimalista similar a Notion -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Importamos fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
-        /* Estilos generales adaptados a la estética de Notion */
+        /* Variables para el Tema Claro (Estilo Oficial Notion) */
+        :root {
+            --bg-body: transparent;
+            --bg-card: #fbfbfa;
+            --border-card: #edece9;
+            --text-main: #37352f;
+            --text-muted: #787774;
+            --btn-border: #dfdfde;
+            --btn-hover-bg: #f1f1f0;
+            --shadow: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Variables para el Tema Oscuro (Estilo Oficial Notion Dark) */
+        [data-theme="dark"] {
+            --bg-card: #202020;
+            --border-card: #2f2f2f;
+            --text-main: rgba(255, 255, 255, 0.9);
+            --text-muted: #9b9b9b;
+            --btn-border: #3f3f3f;
+            --btn-hover-bg: #2f2f2f;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: transparent; /* Permite que se adapte al fondo de la página si es necesario */
+            background-color: var(--bg-body);
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
             justify-content: center;
@@ -24,45 +46,65 @@
             overflow: hidden;
         }
 
-        /* Tarjeta del contenedor del widget */
+        /* Tarjeta del widget */
         .widget-container {
-            background-color: #fbfbfa; /* El color exacto del fondo claro de Notion */
-            border: 1px solid #edece9; /* Borde sutil estilo Notion */
+            position: relative;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
             border-radius: 8px;
-            padding: 24px;
+            padding: 28px 24px 20px 24px;
             max-width: 450px;
-            width: 90%;
+            width: 88%;
             text-align: center;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            box-shadow: 0px 2px 6px var(--shadow);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Estilo para la frase filosófica */
+        /* Botón discreto para alternar tema (modo claro/oscuro) */
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            opacity: 1;
+        }
+
+        /* Texto de la frase */
         #texto-frase {
-            font-family: 'Playfair Display', serif; /* Tipografía serif elegante */
-            font-size: 1.25rem;
-            color: #37352f; /* El color de texto principal de Notion */
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--text-main);
             line-height: 1.5;
-            margin: 0 0 12px 0;
+            margin: 10px 0 12px 0;
             font-style: italic;
         }
 
-        /* Estilo para el autor */
+        /* Autor de la frase */
         #autor-frase {
-            font-size: 0.85rem;
-            color: #787774; /* Color secundario grisáceo de Notion */
+            font-size: 0.8rem;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 500;
-            margin: 0 0 20px 0;
+            margin: 0 0 18px 0;
         }
 
-        /* Botón minimalista de cambio */
+        /* Botón "Ver otra frase" */
         #btn-cambiar {
             background-color: transparent;
-            border: 1px solid #dfdfde;
-            color: #37352f;
-            padding: 6px 12px;
+            border: 1px solid var(--btn-border);
+            color: var(--text-main);
+            padding: 6px 14px;
             font-size: 0.75rem;
             border-radius: 4px;
             cursor: pointer;
@@ -72,35 +114,16 @@
         }
 
         #btn-cambiar:hover {
-            background-color: #f1f1f0;
-            border-color: #c1c1c0;
-        }
-
-        /* Soporte automático para Modo Oscuro de Notion si el iframe lo detecta */
-        @media (prefers-color-scheme: dark) {
-            .widget-container {
-                background-color: #202020;
-                border-color: #2f2f2f;
-            }
-            #texto-frase {
-                color: #rgba(255, 255, 255, 0.9);
-            }
-            #autor-frase {
-                color: #9b9b9b;
-            }
-            #btn-cambiar {
-                border-color: #3f3f3f;
-                color: #ffffff;
-            }
-            #btn-cambiar:hover {
-                background-color: #2f2f2f;
-            }
+            background-color: var(--btn-hover-bg);
         }
     </style>
 </head>
 <body>
 
     <div class="widget-container">
+        <!-- Botón para alternar tema manualmente -->
+        <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+        
         <p id="texto-frase">"Cargando frase..."</p>
         <p id="autor-frase"></p>
         <button id="btn-cambiar" onclick="mostrarFraseAleatoria()">Ver otra frase</button>
@@ -134,7 +157,42 @@
             document.getElementById("autor-frase").innerText = fraseSeleccionada.autor;
         }
 
+        // Detectar si el sistema o navegador está en Modo Oscuro de forma predeterminada
+        function detectarPreferenciaTema() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                aplicarTema('dark');
+            } else {
+                aplicarTema('light');
+            }
+        }
+
+        function aplicarTema(tema) {
+            if (tema === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('theme-btn').innerText = '☀️';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('theme-btn').innerText = '🌙';
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                aplicarTema('light');
+            } else {
+                aplicarTema('dark');
+            }
+        }
+
+        // Inicializar
+        detectarPreferenciaTema();
         mostrarFraseDelDia();
+
+        // Escuchar cambios en la preferencia del sistema operativo/navegador en tiempo real
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            aplicarTema(e.matches ? 'dark' : 'light');
+        });
     </script>
 </body>
 </html>
